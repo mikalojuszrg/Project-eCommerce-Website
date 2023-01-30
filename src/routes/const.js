@@ -1,8 +1,8 @@
 import Home from "../pages/Home/Home";
 import Products from "../pages/Products/Products";
 
-const HOME_PATH = "/";
-const PRODUCT_LIST = "/:category";
+export const HOME_PATH = "/";
+export const PRODUCT_LIST_PATH = `${HOME_PATH}:category`;
 
 export const routes = [
   {
@@ -10,7 +10,7 @@ export const routes = [
     Component: Home,
   },
   {
-    path: PRODUCT_LIST,
+    path: PRODUCT_LIST_PATH,
     Component: Products,
   },
 ];

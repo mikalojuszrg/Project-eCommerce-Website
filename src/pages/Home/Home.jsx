@@ -15,20 +15,26 @@ const Home = () => {
   }));
 
   return (
-    <div>
+    <Container>
       <ProductContainer>
         {categories.map((category) => (
           <ProductCategory
             key={category.name}
             name={category.name}
-            image={JSON.parse(category.image)[0]}
+            image={category.image[0]}
           />
         ))}
       </ProductContainer>
-    </div>
+    </Container>
   );
 };
 export default Home;
+
+const Container = styled.div`
+  height: 100vh;
+  display: flex;
+  align-items: center;
+`;
 
 const ProductContainer = styled.div`
   display: flex;
