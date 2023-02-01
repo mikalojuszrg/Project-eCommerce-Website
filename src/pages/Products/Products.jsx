@@ -1,27 +1,55 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import styled from "styled-components";
 import { capitalizeFirstLetter } from "../../utils/string";
 import Select from "react-select";
+import { getUniqueArrayItems } from "../../utils/array";
+import { screenSize } from "../../consts/meidiaQueries";
+import { lightBorderColor } from "../../consts/Colors";
 
 const Products = () => {
   const { category } = useParams();
   const { products } = useContext(ProductContext);
+  const [selectedColors, setSelectedColors] = useState([]);
 
   const categoryProducts = products.filter(
     (product) => product.type === category
   );
 
+  const colors = categoryProducts.map((product) => product.color.toLowerCase());
+  const uniqueColors = getUniqueArrayItems(colors);
+  const colorOptions = uniqueColors.map((color) => ({
+    value: color,
+    label: capitalizeFirstLetter(color),
+  }));
+
+  const selectedColorsArray = selectedColors.map((color) => color.value);
+  const filteredByColorProducts = categoryProducts.filter((product) =>
+    selectedColorsArray.includes(product.color.toLowerCase())
+  );
+
+  console.log(filteredByColorProducts);
+
+  const filteredProducts = filteredByColorProducts.length
+    ? filteredByColorProducts
+    : categoryProducts;
+
   return (
     <div>
       <FiltersContainer>
         <Filter>
-          <Select isMulti name="colors" options={[]} />
+          <Select
+            isMulti
+            name="colors"
+            options={colorOptions}
+            value={selectedColors}
+            onChange={setSelectedColors}
+          />
         </Filter>
       </FiltersContainer>
       <ProductsContainer>
-        {categoryProducts.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductItem key={product.id}>
             <img src={product.picUrl[0]} alt="product" />
 
@@ -41,19 +69,29 @@ export default Products;
 const FiltersContainer = styled.div`
   padding-left: 40px;
   padding-top: 40px;
-  padding-right: 60px;
-  /* display: flex; */
+  padding-right: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const Filter = styled.div`
-  width: 250px;
+  margin-right: 24px;
 `;
 
 const ProductsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  /* gap: 1rem; */
+
   padding: 40px;
+  @media (min-width: ${screenSize.tablet}) and (max-width: ${screenSize.laptop}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: ${screenSize.tablet}) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const ProductItem = styled.div`
@@ -63,7 +101,7 @@ const ProductItem = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  border: 1px solid #e7e3e1;
+  border: 1px solid ${lightBorderColor};
 
   img {
     flex: 1;
