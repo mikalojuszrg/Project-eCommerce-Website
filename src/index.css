@@ -1,9 +1,9 @@
-body {
+body,
+input {
   margin: 0;
   font-family: "Raleway", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* height: 100vh; */
   background-color: #fafafa;
   color: #887569;
 }
