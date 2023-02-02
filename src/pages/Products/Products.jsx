@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, generatePath } from "react-router-dom";
 import { ProductContext } from "../../contexts/ProductContext";
 import styled from "styled-components";
 import { capitalizeFirstLetter } from "../../utils/string";
@@ -7,11 +7,13 @@ import Select from "react-select";
 import { getUniqueArrayItems } from "../../utils/array";
 import { screenSize } from "../../consts/meidiaQueries";
 import { lightBorderColor } from "../../consts/Colors";
+import { PRODUCT_PATH } from "../../routes/const";
 
 const Products = () => {
   const { category } = useParams();
   const { products } = useContext(ProductContext);
   const [selectedColors, setSelectedColors] = useState([]);
+  const navigate = useNavigate();
 
   const categoryProducts = products.filter(
     (product) => product.type === category
@@ -35,6 +37,11 @@ const Products = () => {
     ? filteredByColorProducts
     : categoryProducts;
 
+  const navigateToProduct = (category, productId) => {
+    const path = generatePath(PRODUCT_PATH, { category, productId });
+    navigate(path);
+  };
+
   return (
     <div>
       <FiltersContainer>
@@ -50,7 +57,10 @@ const Products = () => {
       </FiltersContainer>
       <ProductsContainer>
         {filteredProducts.map((product) => (
-          <ProductItem key={product.id}>
+          <ProductItem
+            key={product.id}
+            onClick={() => navigateToProduct(category, product.id)}
+          >
             <img src={product.picUrl[0]} alt="product" />
 
             <ProductProperty>
@@ -67,9 +77,8 @@ const Products = () => {
 export default Products;
 
 const FiltersContainer = styled.div`
-  padding-left: 40px;
-  padding-top: 40px;
-  padding-right: 40px;
+  margin-bottom: 20px;
+
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   @media (max-width: 768px) {
@@ -85,7 +94,6 @@ const ProductsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 
-  padding: 40px;
   @media (min-width: ${screenSize.tablet}) and (max-width: ${screenSize.laptop}) {
     grid-template-columns: repeat(2, 1fr);
   }
