@@ -6,6 +6,7 @@ const ProductContext = createContext();
 const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const tranformData = (products) => {
     return products.map((product) => ({
@@ -22,13 +23,18 @@ const ProductProvider = ({ children }) => {
       .then((response) => {
         const transformedData = tranformData(response.data.data);
         setProducts(transformedData);
-        setIsLoading(false);
       })
-      .catch((error) => console.error("Products", error));
+      .catch((error) => {
+        setError("Nepavyko gauti produktų");
+        console.error("Products", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return (
-    <ProductContext.Provider value={{ products, isLoading }}>
+    <ProductContext.Provider value={{ products, isLoading, error }}>
       {children}
     </ProductContext.Provider>
   );
