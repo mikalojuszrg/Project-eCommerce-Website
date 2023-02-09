@@ -5,13 +5,15 @@ import Product from "../pages/Product/Product";
 import Products from "../pages/Products/Products";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import Checkout from "../pages/Checkout/Checkout";
 
 export const HOME_PATH = "/";
 export const PRODUCT_LIST_PATH = `${HOME_PATH}category/:category`;
 export const PRODUCT_PATH = `${PRODUCT_LIST_PATH}/:productId`;
-export const LOGIN = "/login";
-export const CART = "/cart";
-export const REGISTER = "/register";
+export const LOGIN_PATH = "/login";
+export const CART_PATH = "/cart";
+export const REGISTER_PATH = "/register";
+export const CHECKOUT_PATH = "/checkout";
 
 export const mainLayoutRoutes = {
   Layout: MainLayout,
@@ -28,11 +30,18 @@ export const mainLayoutRoutes = {
       path: PRODUCT_PATH,
       Component: Product,
     },
-
-    { path: CART, Component: Cart },
-
-    { path: LOGIN, Component: Login },
-
-    { path: REGISTER, Component: Register },
+    {
+      path: CART_PATH,
+      Component: Cart,
+    },
+    {
+      path: LOGIN_PATH,
+      Component: Login,
+    },
+    {
+      path: REGISTER_PATH,
+      Component: Register,
+    },
+    { path: CHECKOUT_PATH, Component: Checkout },
   ],
 };

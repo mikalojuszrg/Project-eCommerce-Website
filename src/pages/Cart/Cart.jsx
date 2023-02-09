@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { euroSymbol } from "../../consts/currency";
 import { screenSize } from "../../consts/meidiaQueries";
 import Button from "../../components/Button/Button";
+import { Link } from "react-router-dom";
+import { LOGIN_PATH } from "../../routes/const";
 
 const Cart = () => {
   const { products } = useContext(ProductContext);
@@ -33,7 +35,9 @@ const Cart = () => {
         ))}
       </CartContainer>
       <ButtonContainer>
-        <Button>CHECKOUT</Button>
+        <Button as={Link} to={LOGIN_PATH}>
+          CHECKOUT
+        </Button>
       </ButtonContainer>
     </Container>
   );
