@@ -110,6 +110,7 @@ const ProductItem = styled.div`
   flex-direction: column;
   border-radius: 5px;
   border: 1px solid ${lightBorderColor};
+  cursor: pointer;
 
   img {
     flex: 1;

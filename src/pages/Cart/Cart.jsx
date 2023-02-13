@@ -1,14 +1,18 @@
 import { useContext } from "react";
-import { ProductContext } from "../../contexts/ProductContext";
 import styled from "styled-components";
 import { euroSymbol } from "../../consts/currency";
 import { screenSize } from "../../consts/meidiaQueries";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
-import { LOGIN_PATH } from "../../routes/const";
+import { LOGIN_PATH, CHECKOUT_PATH } from "../../routes/const";
+import { UserContext } from "../../contexts/UserContext";
+import { useProducts } from "../../hooks/products";
 
 const Cart = () => {
-  const { products } = useContext(ProductContext);
+  const { data } = useProducts();
+  const products = data || [];
+
+  const { isLoggedIn } = useContext(UserContext);
 
   const cartProducts = products.slice(0, 2);
   console.log(cartProducts);
@@ -35,7 +39,7 @@ const Cart = () => {
         ))}
       </CartContainer>
       <ButtonContainer>
-        <Button as={Link} to={LOGIN_PATH}>
+        <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH : LOGIN_PATH}>
           CHECKOUT
         </Button>
       </ButtonContainer>
