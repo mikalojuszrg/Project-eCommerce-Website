@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate, generatePath } from "react-router-dom";
-import { ProductContext } from "../../contexts/ProductContext";
 import styled from "styled-components";
 import { capitalizeFirstLetter } from "../../utils/string";
 import Select from "react-select";
@@ -8,10 +7,12 @@ import { getUniqueArrayItems } from "../../utils/array";
 import { screenSize } from "../../consts/meidiaQueries";
 import { lightBorderColor } from "../../consts/Colors";
 import { PRODUCT_PATH } from "../../routes/const";
+import { useProducts } from "../../hooks/products";
 
 const Products = () => {
   const { category } = useParams();
-  const { products } = useContext(ProductContext);
+  const { data } = useProducts();
+  const products = data || [];
   const [selectedColors, setSelectedColors] = useState([]);
   const navigate = useNavigate();
 
