@@ -2,11 +2,15 @@ import styled from "styled-components";
 import { searchBgColor } from "../../consts/Colors";
 import { FaSearch } from "react-icons/fa";
 
-const SearchBar = () => {
+const SearchBar = ({ value, setValue }) => {
   return (
     <InputWrapper>
       <FaSearch />
-      <Input placeholder="Search" />
+      <Input
+        placeholder="Search"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
     </InputWrapper>
   );
 };
