@@ -9,24 +9,41 @@ import { CartContext } from "../../contexts/CartContext";
 import CartItem from "./CartItem";
 
 const Cart = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, handleUpdateQuantity } = useContext(CartContext);
   const { isLoggedIn } = useContext(UserContext);
 
   return (
     <Container>
       <Header>
-        <h2>MY BAG</h2>
-        <p>Items are reserved for 30 minutes</p>
+        {cartItems.length ? (
+          <>
+            <h2>MY BAG</h2>
+            <p>Items are reserved for 30 minutes</p>
+          </>
+        ) : (
+          <>
+            <p>Your bag is empty</p>
+          </>
+        )}
       </Header>
       <CartContainer>
         {cartItems.map((product) => (
-          <CartItem key={product.id} product={product} />
+          <CartItem
+            key={product.id}
+            product={product}
+            handleIncreaseQuantity={() =>
+              handleUpdateQuantity(product.id, "increase")
+            }
+            handleDecreaseQuantity={() => handleUpdateQuantity(product.id)}
+          />
         ))}
       </CartContainer>
       <ButtonContainer>
-        <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH : LOGIN_PATH}>
-          CHECKOUT
-        </Button>
+        {!!cartItems.length && (
+          <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH : LOGIN_PATH}>
+            CHECKOUT
+          </Button>
+        )}
       </ButtonContainer>
     </Container>
   );
@@ -50,7 +67,7 @@ const Header = styled.div`
 `;
 
 const CartContainer = styled.div`
-  padding: 24px 32px 0px 0px;
+  padding: 0px 32px 0px 0px;
   background-color: #ffffff;
   margin-bottom: 24px;
 `;

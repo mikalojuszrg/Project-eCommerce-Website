@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import { euroSymbol } from "../../consts/currency";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
-const CartItem = ({ product }) => {
+const CartItem = ({
+  product,
+  handleDecreaseQuantity,
+  handleIncreaseQuantity,
+}) => {
   return (
     <Container>
       <img src={product.picUrl[0]} alt="product" />
@@ -13,7 +18,11 @@ const CartItem = ({ product }) => {
         <p>{product.name}</p>
         <CartItemColor>{product.color}</CartItemColor>
       </div>
-      <ItemQuantity>Quantity: {product.quantity}</ItemQuantity>
+      <ItemQuantityContainer>
+        <AiOutlineMinus onClick={handleDecreaseQuantity} />
+        <ItemQuantity>{product.quantity}</ItemQuantity>
+        <AiOutlinePlus onClick={handleIncreaseQuantity} />
+      </ItemQuantityContainer>
     </Container>
   );
 };
@@ -41,9 +50,20 @@ const CartItemColor = styled.p`
   margin-top: 8px;
 `;
 
-const ItemQuantity = styled.div`
+const ItemQuantityContainer = styled.div`
   flex: 1;
-  align-self: center;
   margin-right: 48px;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+
+  svg {
+    cursor: pointer;
+  }
+`;
+
+const ItemQuantity = styled.p`
+  font-size: 18px;
 `;
