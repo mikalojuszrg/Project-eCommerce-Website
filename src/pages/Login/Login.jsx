@@ -10,6 +10,7 @@ import { CHECKOUT_PATH, REGISTER_PATH } from "../../routes/const";
 import { useLoginUser } from "../../hooks/user";
 import { UserContext } from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -26,6 +27,7 @@ const Login = () => {
       .then((response) => {
         setUser(response);
         navigate(CHECKOUT_PATH);
+        toast.success("Succesfully logged in");
       })
       .catch((error) => {
         console.log("Failed to login", error);

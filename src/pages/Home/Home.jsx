@@ -2,6 +2,7 @@ import { getUniqueArrayItems } from "../../utils/array";
 import styled from "styled-components";
 import ProductCategory from "./ProductCategory";
 import { useProducts } from "../../hooks/products";
+import { screenSize } from "../../consts/meidiaQueries";
 
 const Home = () => {
   const { data, isLoading, error } = useProducts();
@@ -46,9 +47,14 @@ const Container = styled.div`
 `;
 
 const ProductContainer = styled.div`
-  display: flex;
-  gap: 16x;
-  flex-wrap: wrap;
-  justify-content: center;
-  background-color: #fafafa;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+
+  @media (min-width: ${screenSize.tablet}) and (max-width: ${screenSize.laptop}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: ${screenSize.tablet}) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;

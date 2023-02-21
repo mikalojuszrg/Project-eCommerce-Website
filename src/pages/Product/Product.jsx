@@ -7,6 +7,7 @@ import { euroSymbol } from "../../consts/currency";
 import Button from "../../components/Button/Button";
 import { CartContext } from "../../contexts/CartContext";
 import { useContext } from "react";
+import { toast } from "react-hot-toast";
 
 const Product = () => {
   const { productId } = useParams();
@@ -24,6 +25,11 @@ const Product = () => {
     return <div>This product does not exist</div>;
   }
 
+  const handleAddProduct = () => {
+    handleAddToCart(product);
+    toast.success("Added to cart");
+  };
+
   return (
     <Container>
       <PhotoSide>
@@ -36,7 +42,7 @@ const Product = () => {
           {product.price}
         </Price>
         <Description>{product.description}</Description>
-        <Button onClick={() => handleAddToCart(product)}>Add to cart</Button>
+        <Button onClick={handleAddProduct}>Add to cart</Button>
       </InfoSide>
     </Container>
   );
